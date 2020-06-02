@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
-import { auth } from "firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "firebase/firebase.utils";
 
 import "./App.css";
 
@@ -21,10 +21,22 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      this.setState({ currentUser: user });
-
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      // if auth returned with a user object
+      if (userAuth) {
+        // Save user in DB if it does not exist. If user exists, return user from db
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot((snapShot) => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data(),
+            },
+          });
+        });
+      } else {
+        this.setState({ currentUser: userAuth });
+      }
     });
   }
 
