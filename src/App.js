@@ -9,6 +9,7 @@ import HomePage from "pages/homepage/homepage.component";
 import ShopPage from "pages/shop/shop.component";
 import SignInAndSignUpPage from "pages/sign-in-and-sign-out/sign-in-and-sign-out.component";
 import Header from "components/header/header.component";
+
 import { setCurrentUser } from "redux/user/user-action";
 
 class App extends Component {
