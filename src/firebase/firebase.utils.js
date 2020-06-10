@@ -12,6 +12,8 @@ const config = {
   appId: "1:677654042730:web:d65716aca4fff87c871213",
 };
 
+firebase.initializeApp(config);
+
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return; // return if userdata is not provided
   // const userRef = await firestore.doc(`users/${userAuth.uid}`);
@@ -38,7 +40,39 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef; // Return documentreference for the user
 };
 
-firebase.initializeApp(config);
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    const { title, items } = doc.data();
+
+    return {
+      id: doc.id,
+      routeName: encodeURI(title.toLowerCase()),
+      title,
+      items,
+    };
+  });
+
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    return accumulator;
+  }, {});
+};
+
+// Function to add shop data to Firebase (to be used once only to add shop data to db)
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = firestore.collection(collectionKey);
+  const batch = firestore.batch();
+
+  objectsToAdd.forEach((obj) => {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);
+  });
+
+  return await batch.commit();
+};
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
