@@ -4,12 +4,17 @@
 /node_modules
 /.pnp
 .pnp.js
+/client/node_modules
+/client/.pnp
+/client/.pnp.js
 
 # testing
 /coverage
+/client/coverage
 
 # production
 /build
+/client/build
 
 # misc
 .DS_Store
@@ -17,6 +22,17 @@
 .env.development.local
 .env.test.local
 .env.production.local
+/client/.DS_Store
+/client/.env.local
+/client/.env.development.local
+/client/.env.test.local
+/client/.env.production.local
+
+.env
+
+/client/npm-debug.log*
+/client/yarn-debug.log*
+/client/yarn-error.log*
 
 npm-debug.log*
 yarn-debug.log*
