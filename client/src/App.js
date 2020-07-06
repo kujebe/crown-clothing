@@ -17,7 +17,7 @@ const ShopPage = lazy(() => import("pages/shop/shop.component"));
 const SignInAndSignUpPage = lazy(() =>
   import("pages/sign-in-and-sign-out/sign-in-and-sign-out.component")
 );
-const CheckoutPage = lazy(import("pages/checkout/checkout.component"));
+const CheckoutPage = lazy(() => import("pages/checkout/checkout.component"));
 
 class App extends Component {
   componentDidMount() {
